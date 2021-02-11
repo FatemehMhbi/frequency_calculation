@@ -8,7 +8,7 @@ Created on Tue Feb  9 19:08:55 2021
 import pandas as pd
 import numpy as np
 import os, sys
-from utils import remove_nans, generate_datapoints, date_to_num, read_meta, remove_non_val_dates
+from utils import generate_datapoints, date_to_num, read_meta, remove_non_val_dates
 
     
 def calculate_sum_per_timepoints(list_, dates, timepoints):
@@ -49,13 +49,9 @@ def calculte_frequency(cluster_counts, dates, clusters, time_period, start_delay
     
     for cluster in clusters:
         frequencies = get_counts_for_cluster(cluster_counts, str(cluster))
-        print(frequencies)
         weekly_cluster_freq = calculate_sum_per_timepoints(frequencies, dates_indices, weeks_indices)
-        # print(weekly_cluster_freq)
-        no_nan_week_indices = remove_nans(weekly_cluster_freq, weeks_indices[1:])
-        weekly_cluster_freq = remove_nans(weekly_cluster_freq, weekly_cluster_freq)
         cluster_freq[str(cluster)] = weekly_cluster_freq
-    cluster_freq.index = no_nan_week_indices
+    cluster_freq.index = weeks_indices[1:]
     return cluster_freq
 
 
